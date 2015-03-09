@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name         = 'PYDropMenu'
   s.version      = '0.0.1'
-  s.license      = { :type => 'MIT', :file => 'License'}
+  s.license      = { :type => 'MIT', :file => 'LICENSE'}
   s.homepage     = 'https://github.com/Doubletaps76/PYDropMenu'
   s.authors      = { 'Tsau,Po-Yuan' => 'heineken00000@gmail.com' }
   s.summary      = 'PYDropMenu is an easy-to-use menu library for IOS.'
