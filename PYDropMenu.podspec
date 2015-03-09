@@ -1,13 +1,13 @@
-Pod::Spec.new do |spec|
-  spec.name         = 'PYDropMenu'
-  spec.version      = '0.1'
-  spec.license      = { :type => 'MIT' , :file => 'License'}
-  spec.homepage     = 'https://github.com/Doubletaps76/PYDropMenu'
-  spec.authors      = { 'Tsau,Po-Yuan' => 'heineken00000@gmail.com' }
-  spec.summary      = 'A easy use dropmenu library for IOS.'
-  spec.source       = { :git => 'https://github.com/Doubletaps76/PYDropMenu.git', :tag => 'v0.1' }
-  spec.source_files = '/PYDropMenu/**/*.{h,m}'
-  spec.requires_arc = ture
-  spec.platform = :ios, '7.0'
-  spec.ios.deployment_target = '7.0'
+Pod::Spec.new do |s|
+  s.name         = 'PYDropMenu'
+  s.version      = '0.0.1'
+  s.license      = { :type => 'MIT', :file => 'License'}
+  s.homepage     = 'https://github.com/Doubletaps76/PYDropMenu'
+  s.authors      = { 'Tsau,Po-Yuan' => 'heineken00000@gmail.com' }
+  s.summary      = 'PYDropMenu is an easy-to-use menu library for IOS.'
+  s.source       = { :git => 'https://github.com/Doubletaps76/PYDropMenu.git', 
+  					 :tag => s.version.to_s }
+  s.source_files = 'PYDropMenu/**/*.{h,m}'
+  s.platform = :ios, '7.0'
+  s.ios.deployment_target = '7.0'
 end
