@@ -45,10 +45,15 @@
 @protocol PYDropMenuDataSource <NSObject>
 
 @required
-- (NSMutableArray*)buttonTitlesSourceInPYDropMenu:(PYDropMenu*)dropMenu;
+- (NSInteger)numberOfButtonsInPYDropMenu:(PYDropMenu*)dropMenu;
+
+- (NSString*)titleForButtonAtIndex:(NSInteger)buttonIndex withPYDropMenu:(PYDropMenu*)dropMenu;
 
 @optional
-- (NSMutableArray*)pyDropMenu:(PYDropMenu*)dropMenu subButtonsAtIndex:(NSInteger)index;
+- (NSInteger)numberOfSubBtnsInButton:(NSInteger)buttonIndex withPYDropMenu:(PYDropMenu*)dropMenu;
+
+- (NSString*)titleForSubBtnsAtSubIndex:(NSInteger)subbuttonIndex andIndex:(NSInteger)buttonIndex withPYDropMenu:(PYDropMenu*)dropMenu;
+
 @end
 
 @interface PYDropMenu : UIViewController <UIGestureRecognizerDelegate>

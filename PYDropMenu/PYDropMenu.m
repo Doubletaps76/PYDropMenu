@@ -82,7 +82,7 @@
     if(_separateColor == 0) _separateColor = kSeparatelineColor;
 }
 
-- (void)setupWithBtnTitles:(NSArray*)buttonTitles
+- (void)setupWithButtonsCount:(NSInteger)buttonsCount
 {
     [self setupInfo];
     
@@ -108,25 +108,24 @@
     _scrollContentHeight = 0;
     
     //setup Buttons
-    int count = 0;
-    for (NSString *btnTitle in buttonTitles)
-    {
-        NSMutableArray *subButtonTitles = [NSMutableArray array];
+    for (int btnIndex = 0; btnIndex < buttonsCount; btnIndex++) {
         
-        if ([self.dataSource pyDropMenu:self subButtonsAtIndex:count] != nil) {
-            subButtonTitles = [self.dataSource pyDropMenu:self subButtonsAtIndex:count];
+        NSString *btnTitle = [self.dataSource titleForButtonAtIndex:btnIndex withPYDropMenu:self];
+        
+        NSInteger subButtonsCount = 0;
+        if ([self.dataSource respondsToSelector:@selector(numberOfSubBtnsInButton:withPYDropMenu:)]) {
+            subButtonsCount = [self.dataSource numberOfSubBtnsInButton:btnIndex withPYDropMenu:self];
         }
-        
         CGFloat btnWidth;
-        if (subButtonTitles.count > 0) {
-            btnWidth = (subButtonTitles.count >= 3 )?showMenuWidth/4:showMenuWidth/2;
+        if (subButtonsCount > 0) {
+            btnWidth = (subButtonsCount >= 3 )?showMenuWidth/4:showMenuWidth/2;
         }else{
             btnWidth = showMenuWidth;
         }
         
         // setup Buttons
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
-        btn.tag = count;
+        btn.tag = btnIndex;
         [btn setBackgroundColor:_btnBackgroundColor];
         [btn setContentHorizontalAlignment:_btnHorizontalAlignment];
         CGFloat alignmentOffset = 0;
@@ -134,7 +133,6 @@
             alignmentOffset = btnTitle.length/2;
             _btnTitleLeftPadding = -alignmentOffset;
         }
-//        [btn setBackgroundImage:[self imageWithColor:_btnBackgroundColor] forState:UIControlStateNormal];
         [btn setFrame:CGRectMake(0, _scrollContentHeight, btnWidth, _btnHeight)];
         [btn setTitle:btnTitle forState:UIControlStateNormal];
         btn.contentEdgeInsets = UIEdgeInsetsMake(0, _btnTitleLeftPadding, 0, 0);
@@ -143,69 +141,75 @@
         [btn setTitleColor:_btnSelectColor forState:UIControlStateSelected];
         [btn setTintColor:[UIColor clearColor]];
         [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [self.delegate getPYDropMenuButton:btn withIndex:btn.tag];
+        
+        if ([self.delegate respondsToSelector:@selector(getPYDropMenuButton:withIndex:)]) {
+            [self.delegate getPYDropMenuButton:btn withIndex:btnIndex];
+        }
+        
         [self.menu addSubview:btn];
         
         _scrollContentHeight += _btnHeight;
         
         //setup separateLine
-        if (subButtonTitles.count == 0) {
+        if (subButtonsCount == 0) {
             UIView *separateLine = [[UIView alloc] initWithFrame:CGRectMake(showMenuWidth*0.1, _scrollContentHeight, showMenuWidth*0.9, 1)];
             separateLine.backgroundColor = _separateColor;
             [self.menu addSubview:separateLine];
             _scrollContentHeight += 1;
         }
     
-        //setup SubButtons
-        for (int i = 0; i < subButtonTitles.count; i++) {
-            NSString *subTitle = subButtonTitles[i];
-            
-            CGFloat subBtnWidth = 0 ;
-            if (subButtonTitles.count <= 3) {
-                subBtnWidth = (showMenuWidth - btnWidth)/subButtonTitles.count;
-            }else{
-                subBtnWidth = (showMenuWidth - btnWidth)/3;
-            }
-            
-            CGFloat subBtnYoffSet = (_btnHeight+1) * (i/3);
-            
-            UIButton *subBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-            subBtn.tag = i + 10000 * count;
-            [subBtn setBackgroundColor:_subBtnBackgroundColor];
-//            [subBtn setBackgroundImage:[self imageWithColor:_subBtnBackgroundColor] forState:UIControlStateNormal];
-            [subBtn setFrame:CGRectMake(btnWidth + (subBtnWidth*(i%3)), btn.frame.origin.y + subBtnYoffSet, subBtnWidth, _btnHeight + 1)];
-            [subBtn setTitle:subTitle forState:UIControlStateNormal];
-            subBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-            subBtn.contentEdgeInsets = UIEdgeInsetsMake(0, _subBtnTitleLeftPadding, 0, 0);
-            [subBtn.titleLabel setFont:_subBtnFont];
-            [subBtn setTitleColor:_btnTitleColor forState:UIControlStateNormal];
-            [subBtn setTitleColor:_btnSelectColor forState:UIControlStateSelected];
-            [subBtn setTintColor:[UIColor clearColor]];
-            [subBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-            [self.delegate getPYDropMenuSubButton:subBtn withIndex:btn.tag andSubIndex:subBtn.tag - 10000];
-            [self.menu addSubview:subBtn];
-            
-            //if enter next subbuttons row
-            if (i % 3 == 0 && i != 0) _scrollContentHeight += _btnHeight;
-            
-            //if subbuttons row contain full buttons ,then add separate line
-            if (i%3 == 2) {
-                UIView *separateLine = [[UIView alloc] initWithFrame:CGRectMake(btnWidth, _scrollContentHeight, showMenuWidth-btnWidth, 1)];
-                separateLine.backgroundColor = _separateColor;
-                [self.menu addSubview:separateLine];
-                _scrollContentHeight += 1;
-            }
-            
-            //if row aren't contain full buttons ,then add full separate line
-            if(i == subButtonTitles.count-1 && i%3 != 2){
-                UIView *separateLine = [[UIView alloc] initWithFrame:CGRectMake(showMenuWidth*0.1, _scrollContentHeight, showMenuWidth*0.9, 1)];
-                separateLine.backgroundColor = _separateColor;
-                [self.menu addSubview:separateLine];
-                _scrollContentHeight += 1;
+        if (subButtonsCount > 0) {
+            //setup SubButtons
+            for (int i = 0; i < subButtonsCount; i++) {
+                
+                NSString *subTitle = [self.dataSource titleForSubBtnsAtSubIndex:i andIndex:btnIndex withPYDropMenu:self];
+
+                CGFloat subBtnWidth = 0 ;
+                if (subButtonsCount <= 3) {
+                    subBtnWidth = (showMenuWidth - btnWidth)/subButtonsCount;
+                }else{
+                    subBtnWidth = (showMenuWidth - btnWidth)/3;
+                }
+                
+                CGFloat subBtnYoffSet = (_btnHeight+1) * (i/3);
+                
+                UIButton *subBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+                subBtn.tag = i + 10000 * btnIndex;
+                [subBtn setBackgroundColor:_subBtnBackgroundColor];
+                [subBtn setFrame:CGRectMake(btnWidth + (subBtnWidth*(i%3)), btn.frame.origin.y + subBtnYoffSet, subBtnWidth, _btnHeight + 1)];
+                [subBtn setTitle:subTitle forState:UIControlStateNormal];
+                subBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+                subBtn.contentEdgeInsets = UIEdgeInsetsMake(0, _subBtnTitleLeftPadding, 0, 0);
+                [subBtn.titleLabel setFont:_subBtnFont];
+                [subBtn setTitleColor:_btnTitleColor forState:UIControlStateNormal];
+                [subBtn setTitleColor:_btnSelectColor forState:UIControlStateSelected];
+                [subBtn setTintColor:[UIColor clearColor]];
+                [subBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+                if ([self.delegate respondsToSelector:@selector(getPYDropMenuSubButton:withIndex:andSubIndex:)]) {
+                    [self.delegate getPYDropMenuSubButton:subBtn withIndex:btnIndex andSubIndex:subBtn.tag - 10000];
+                }
+                [self.menu addSubview:subBtn];
+                
+                //if enter next subbuttons row
+                if (i % 3 == 0 && i != 0) _scrollContentHeight += _btnHeight;
+                
+                //if subbuttons row contain full buttons ,then add separate line
+                if (i%3 == 2) {
+                    UIView *separateLine = [[UIView alloc] initWithFrame:CGRectMake(btnWidth, _scrollContentHeight, showMenuWidth-btnWidth, 1)];
+                    separateLine.backgroundColor = _separateColor;
+                    [self.menu addSubview:separateLine];
+                    _scrollContentHeight += 1;
+                }
+                
+                //if row aren't contain full buttons ,then add full separate line
+                if(i == subButtonsCount-1 && i%3 != 2){
+                    UIView *separateLine = [[UIView alloc] initWithFrame:CGRectMake(showMenuWidth*0.1, _scrollContentHeight, showMenuWidth*0.9, 1)];
+                    separateLine.backgroundColor = _separateColor;
+                    [self.menu addSubview:separateLine];
+                    _scrollContentHeight += 1;
+                }
             }
         }
-        
-        count += 1;
     }
     
     // if buttons too less to need full screen layout then resetframe
@@ -246,21 +250,6 @@
     [super viewDidLoad];
 }
 
-- (UIImage *)imageWithColor:(UIColor *)color
-{
-    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, rect);
-    
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return image;
-}
-
 #pragma mark - toggle,show,hide Menu
 
 - (void)toggleMenu
@@ -272,7 +261,7 @@
 {
     
     //setup PYDropMenu
-    [self setupWithBtnTitles:[self.dataSource buttonTitlesSourceInPYDropMenu:self]];
+    [self setupWithButtonsCount:[self.dataSource numberOfButtonsInPYDropMenu:self]];
 
     // RePosition when Iphone in calling (because statusBar height changed)
     CGSize viewSize = self.view.frame.size;

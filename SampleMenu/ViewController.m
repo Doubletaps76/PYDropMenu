@@ -14,7 +14,12 @@
 @property (nonatomic) PYDropMenu *subMenu;
 @property (nonatomic) UIButton *navTitleBtn;
 @property (nonatomic) NSMutableArray *options;
-@property (nonatomic) NSMutableArray *subOptions;
+@property (nonatomic) NSMutableArray *subOptions2;
+@property (nonatomic) NSMutableArray *subOptions4;
+@property (nonatomic) NSMutableArray *subOptions9;
+@property (nonatomic) NSMutableArray *subOptions10;
+
+@property (nonatomic) NSMutableArray *secondOptions;
 @property (nonatomic) NSString *nowSelect;
 
 @end
@@ -39,8 +44,17 @@
     self.navigationItem.titleView = _navTitleBtn;
     [_navTitleBtn setTitle:@"1" forState:UIControlStateNormal];
     
-    _options = [NSMutableArray arrayWithArray:@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10"]];
-    _subOptions = [NSMutableArray arrayWithArray:@[@"A",@"B",@"C",@"D"]];
+    _options = [NSMutableArray arrayWithArray:@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11"]];
+    _secondOptions = [NSMutableArray arrayWithArray:@[@"A",@"B",@"C",@"D"]];
+    
+    _subOptions2 = [NSMutableArray array];
+    [_subOptions2 addObjectsFromArray:@[@"2-1",@"2-2",@"2-3",@"2-4"]];
+    _subOptions4 = [NSMutableArray array];
+    [_subOptions4 addObjectsFromArray:@[@"4-1",@"4-2"]];
+    _subOptions9 = [NSMutableArray array];
+    [_subOptions9 addObjectsFromArray:@[@"9-1",@"9-2",@"9-3"]];
+    _subOptions10 = [NSMutableArray array];
+    [_subOptions10 addObjectsFromArray:@[@"10-1",@"10-2",@"10-3",@"10-4",@"10-5",@"10-6"]];
     
     [self pyDropMenuSetup];
     
@@ -87,48 +101,63 @@
         
         
     }else if (dropMenu == _subMenu){
-        [_subButton setTitle:_subOptions[index] forState:UIControlStateNormal];
+        [_subButton setTitle:_secondOptions[index] forState:UIControlStateNormal];
     }
 }
 
 #pragma mark pyDropMenu DataSource
-
-- (NSMutableArray*)buttonTitlesSourceInPYDropMenu:(PYDropMenu *)dropMenu
+- (NSInteger)numberOfButtonsInPYDropMenu:(PYDropMenu *)dropMenu
 {
     if (dropMenu == _dropMenu) {
-        return _options;
+        return _options.count;
     }else if(dropMenu == _subMenu){
-        return _subOptions;
-    }else{
-        return nil;
+        return _secondOptions.count;
     }
+    return 0;
 }
 
-- (NSMutableArray *)pyDropMenu:(PYDropMenu *)dropMenu subButtonsAtIndex:(NSInteger)index
+- (NSInteger)numberOfSubBtnsInButton:(NSInteger)buttonIndex withPYDropMenu:(PYDropMenu *)dropMenu
 {
     if (dropMenu == _dropMenu) {
-        
-        if (index == 1) {
-            NSMutableArray *ary = [NSMutableArray array];
-            [ary addObjectsFromArray:@[@"2-1",@"2-2",@"2-3",@"2-4"]];
-            return ary;
-        }else if (index == 2){
-            NSMutableArray *ary = [NSMutableArray array];
-            [ary addObjectsFromArray:@[@"3-1",@"3-2"]];
-            return ary;
-        }else if (index == 3){
-            NSMutableArray *ary = [NSMutableArray array];
-            [ary addObjectsFromArray:@[@"4-1",@"4-2",@"4-3",@"4-1",@"4-2",@"4-3"]];
-            return ary;
-        }else if (index == 4){
-            NSMutableArray *ary = [NSMutableArray array];
-            [ary addObjectsFromArray:@[@"5-1",@"5-2"]];
-            return ary;
+        if (buttonIndex == 1) {
+            return _subOptions2.count;
+        }else if (buttonIndex == 3){
+            return _subOptions4.count;
+        }else if (buttonIndex == 8){
+            return _subOptions9.count;
+        }else if (buttonIndex == 9){
+            return _subOptions10.count;
         }
-            
     }
-    return nil;
+    return 0;
 }
 
+- (NSString*)titleForButtonAtIndex:(NSInteger)buttonIndex withPYDropMenu:(PYDropMenu *)dropMenu
+{
+    if (dropMenu == _dropMenu) {
+        return _options[buttonIndex];
+    }else if(dropMenu == _subMenu){
+        return _secondOptions[buttonIndex];
+    }else{
+        return @"";
+    }
+}
+
+- (NSString*)titleForSubBtnsAtSubIndex:(NSInteger)subbuttonIndex andIndex:(NSInteger)buttonIndex withPYDropMenu:(PYDropMenu *)dropMenu
+{
+    if (dropMenu == _dropMenu) {
+        if (buttonIndex == 1) {
+            return _subOptions2[subbuttonIndex];
+        }else if (buttonIndex == 3){
+            return _subOptions4[subbuttonIndex];
+        }else if (buttonIndex == 8){
+            return _subOptions9[subbuttonIndex];
+        }else if (buttonIndex == 9){
+            return _subOptions10[subbuttonIndex];
+        }
+    }
+    
+    return @"";
+}
 
 @end
