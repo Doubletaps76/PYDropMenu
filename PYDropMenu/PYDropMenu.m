@@ -143,7 +143,7 @@
         [btn setTitleColor:_btnSelectColor forState:UIControlStateSelected];
         [btn setTintColor:[UIColor clearColor]];
         [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [self.delegate getButton:btn withIndex:btn.tag];
+        [self.delegate getPYDropMenuButton:btn withIndex:btn.tag];
         [self.menu addSubview:btn];
         
         _scrollContentHeight += _btnHeight;
@@ -182,7 +182,7 @@
             [subBtn setTitleColor:_btnSelectColor forState:UIControlStateSelected];
             [subBtn setTintColor:[UIColor clearColor]];
             [subBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-            [self.delegate getSubButton:subBtn withIndex:btn.tag andSubIndex:subBtn.tag - 10000];
+            [self.delegate getPYDropMenuSubButton:subBtn withIndex:btn.tag andSubIndex:subBtn.tag - 10000];
             [self.menu addSubview:subBtn];
             
             //if enter next subbuttons row
@@ -271,7 +271,7 @@
 - (void)showPYDropMenu
 {
     
-    //setup dropdownMenu
+    //setup PYDropMenu
     [self setupWithBtnTitles:[self.dataSource buttonTitlesSourceInPYDropMenu:self]];
 
     // RePosition when Iphone in calling (because statusBar height changed)

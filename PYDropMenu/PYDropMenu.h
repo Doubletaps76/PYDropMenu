@@ -36,9 +36,9 @@
 - (void)pyDropMenuButtonClick:(PYDropMenu*)dropMenu WithIndex:(NSInteger)index andSubIndex:(NSInteger)subIndex;
 
 @optional
-- (void)getButton:(UIButton*)button withIndex:(NSInteger)index;
+- (void)getPYDropMenuButton:(UIButton*)button withIndex:(NSInteger)index;
 
-- (void)getSubButton:(UIButton*)subbutton withIndex:(NSInteger)index andSubIndex:(NSInteger)subIndex;
+- (void)getPYDropMenuSubButton:(UIButton*)subbutton withIndex:(NSInteger)index andSubIndex:(NSInteger)subIndex;
 
 @end
 
