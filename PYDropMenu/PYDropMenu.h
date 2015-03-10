@@ -35,6 +35,11 @@
 @required
 - (void)pyDropMenuButtonClick:(PYDropMenu*)dropMenu WithIndex:(NSInteger)index andSubIndex:(NSInteger)subIndex;
 
+@optional
+- (void)getButton:(UIButton*)button withIndex:(NSInteger)index;
+
+- (void)getSubButton:(UIButton*)subbutton withIndex:(NSInteger)index andSubIndex:(NSInteger)subIndex;
+
 @end
 
 @protocol PYDropMenuDataSource <NSObject>
@@ -44,7 +49,6 @@
 
 @optional
 - (NSMutableArray*)pyDropMenu:(PYDropMenu*)dropMenu subButtonsAtIndex:(NSInteger)index;
-
 @end
 
 @interface PYDropMenu : UIViewController <UIGestureRecognizerDelegate>

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'PYDropMenu'
-  s.version      = '0.0.1'
+  s.version      = '0.0.2'
   s.license      = { :type => 'MIT', :file => 'LICENSE'}
   s.homepage     = 'https://github.com/Doubletaps76/PYDropMenu'
   s.authors      = { 'Tsau,Po-Yuan' => 'heineken00000@gmail.com' }

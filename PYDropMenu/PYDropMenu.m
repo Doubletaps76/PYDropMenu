@@ -143,6 +143,7 @@
         [btn setTitleColor:_btnSelectColor forState:UIControlStateSelected];
         [btn setTintColor:[UIColor clearColor]];
         [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [self.delegate getButton:btn withIndex:btn.tag];
         [self.menu addSubview:btn];
         
         _scrollContentHeight += _btnHeight;
@@ -181,6 +182,7 @@
             [subBtn setTitleColor:_btnSelectColor forState:UIControlStateSelected];
             [subBtn setTintColor:[UIColor clearColor]];
             [subBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+            [self.delegate getSubButton:subBtn withIndex:btn.tag andSubIndex:subBtn.tag - 10000];
             [self.menu addSubview:subBtn];
             
             //if enter next subbuttons row
@@ -344,7 +346,7 @@
     [btn setSelected:YES];
     
     if (btn.tag >= 10000) {
-        NSInteger index = floor(btn.tag/10000);
+        NSInteger index = btn.tag/10000;
         NSInteger subIndex = btn.tag - 10000*index;
         
         _selectIndex = index;

@@ -42,14 +42,14 @@
     _options = [NSMutableArray arrayWithArray:@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10"]];
     _subOptions = [NSMutableArray arrayWithArray:@[@"A",@"B",@"C",@"D"]];
     
-    [self dropDownMenuSetup];
+    [self pyDropMenuSetup];
     
     [_subButton addTarget:self action:@selector(toggleSubMenu) forControlEvents:UIControlEventTouchUpInside];
 }
 
-#pragma mark - DropDownMenu
+#pragma mark - pyDropMenu
 
-- (void)dropDownMenuSetup
+- (void)pyDropMenuSetup
 {    
     _dropMenu = [[PYDropMenu alloc] initWithTargetView:self.view];
     _dropMenu.btnFont = [UIFont fontWithName:@"Futura-Medium" size:15.0];
@@ -71,6 +71,7 @@
 {
     [_subMenu toggleMenu];
 }
+
 #pragma mark pyDropMenu Delegate
 
 - (void)pyDropMenuButtonClick:(PYDropMenu*)dropMenu WithIndex:(NSInteger)index andSubIndex:(NSInteger)subIndex
@@ -90,7 +91,7 @@
     }
 }
 
-#pragma mark DropDownMeny DataSource
+#pragma mark pyDropMenu DataSource
 
 - (NSMutableArray*)buttonTitlesSourceInPYDropMenu:(PYDropMenu *)dropMenu
 {
