@@ -27,9 +27,9 @@
 
 #import "PYDropMenu.h"
 
-#define kSectionButtonHeight 50
+#define kMenuBackgroundColor [UIColor colorWithRed:1 green:1 blue:1 alpha:0.95]
 
-#define kBtnBackgroundColor [UIColor colorWithRed:1 green:1 blue:1 alpha:0.95]
+#define kBtnBackgroundColor [UIColor clearColor]
 #define kBtnSelectedColor [UIColor colorWithRed:19/255.0f green:149/255.0f blue:184/255.0f alpha:1.0f]
 #define kBtnTitleColor [UIColor blackColor]
 #define kBtnHeight 50
@@ -38,8 +38,10 @@
 #define kSubBtnTitleLeftPadding 0
 
 #define kSeparatelineHeight 1
-#define kSeparatelineColor [UIColor colorWithRed:0.95 green:0.95 blue:0.95 alpha:0.95]
+#define kSeparatelineColor [UIColor colorWithRed:0.90 green:0.90 blue:0.90 alpha:0.95]
 #define kSeparatelineLong 0.8
+
+#define kContainerBackgroundColor [UIColor colorWithRed:0 green:0 blue:0 alpha:0.95]
 
 @interface PYDropMenu()
 
@@ -58,18 +60,22 @@
 
 - (void)setupInfo
 {
+    if (_menuBackgroundColor == nil) _menuBackgroundColor = kMenuBackgroundColor;
+    
     //btns
     if(_btnBackgroundColor == nil) _btnBackgroundColor = kBtnBackgroundColor;
     if(_btnSelectColor == nil) _btnSelectColor = kBtnSelectedColor;
     if(_btnTitleColor == nil) _btnTitleColor = kBtnTitleColor;
     if(_btnHeight == 0) _btnHeight = kBtnHeight;
-    if (_btnTitleLeftPadding == 0) _btnTitleLeftPadding = kBtnTitleLeftPadding;
-
+    if(_btnTitleLeftPadding == 0) _btnTitleLeftPadding = kBtnTitleLeftPadding;
+    if(_btnFont == nil) [UIFont systemFontOfSize:15.0];
+    
     //subBtns
-    if(_subBtnBackgroundColor == nil) _btnBackgroundColor = kBtnBackgroundColor;
-    if(_subBtnSelectColor == nil) _btnSelectColor = kBtnSelectedColor;
-    if(_subBtnTitleColor == nil) _btnTitleColor = kBtnTitleColor;
-    if (_subBtnTitleLeftPadding == 0) _subBtnTitleLeftPadding = kSubBtnTitleLeftPadding;
+    if(_subBtnBackgroundColor == nil) _subBtnBackgroundColor = kBtnBackgroundColor;
+    if(_subBtnSelectColor == nil) _subBtnSelectColor = kBtnSelectedColor;
+    if(_subBtnTitleColor == nil) _subBtnTitleColor = kBtnTitleColor;
+    if(_subBtnTitleLeftPadding == 0) _subBtnTitleLeftPadding = kSubBtnTitleLeftPadding;
+    if(_subBtnFont == nil) [UIFont systemFontOfSize:15.0];
     
     //Separate
     if(_separateHeight == 0) _separateHeight = kSeparatelineHeight;
@@ -96,7 +102,7 @@
     
     //setup dropMenu
     self.menu = [[UIScrollView alloc] initWithFrame:CGRectMake(0, -showMenuHeight, showMenuWidth, showMenuHeight)];
-    [self.menu setBackgroundColor:[UIColor whiteColor]];
+    [self.menu setBackgroundColor:_menuBackgroundColor];
     [self.menu setHidden:YES];
     
     _scrollContentHeight = 0;
@@ -106,7 +112,6 @@
     for (NSString *btnTitle in buttonTitles)
     {
         NSMutableArray *subButtonTitles = [NSMutableArray array];
-        
         
         if ([self.dataSource pyDropMenu:self subButtonsAtIndex:count] != nil) {
             subButtonTitles = [self.dataSource pyDropMenu:self subButtonsAtIndex:count];
@@ -122,12 +127,18 @@
         // setup Buttons
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
         btn.tag = count;
-        [btn setBackgroundImage:[self imageWithColor:_btnBackgroundColor] forState:UIControlStateNormal];
-        [btn setFrame:CGRectMake(0, _scrollContentHeight + count, btnWidth, _btnHeight)];
+        [btn setBackgroundColor:_btnBackgroundColor];
+        [btn setContentHorizontalAlignment:_btnHorizontalAlignment];
+        CGFloat alignmentOffset = 0;
+        if (btn.contentHorizontalAlignment == UIControlContentHorizontalAlignmentCenter) {
+            alignmentOffset = btnTitle.length/2;
+            _btnTitleLeftPadding = -alignmentOffset;
+        }
+//        [btn setBackgroundImage:[self imageWithColor:_btnBackgroundColor] forState:UIControlStateNormal];
+        [btn setFrame:CGRectMake(0, _scrollContentHeight, btnWidth, _btnHeight)];
         [btn setTitle:btnTitle forState:UIControlStateNormal];
-        btn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         btn.contentEdgeInsets = UIEdgeInsetsMake(0, _btnTitleLeftPadding, 0, 0);
-        [btn.titleLabel setFont:[UIFont fontWithName:@"Futura-Medium" size:15]];
+        [btn.titleLabel setFont:_btnFont];
         [btn setTitleColor:_btnTitleColor forState:UIControlStateNormal];
         [btn setTitleColor:_btnSelectColor forState:UIControlStateSelected];
         [btn setTintColor:[UIColor clearColor]];
@@ -159,12 +170,13 @@
             
             UIButton *subBtn = [UIButton buttonWithType:UIButtonTypeSystem];
             subBtn.tag = i + 10000 * count;
-            [subBtn setBackgroundImage:[self imageWithColor:_btnBackgroundColor] forState:UIControlStateNormal];
+            [subBtn setBackgroundColor:_subBtnBackgroundColor];
+//            [subBtn setBackgroundImage:[self imageWithColor:_subBtnBackgroundColor] forState:UIControlStateNormal];
             [subBtn setFrame:CGRectMake(btnWidth + (subBtnWidth*(i%3)), btn.frame.origin.y + subBtnYoffSet, subBtnWidth, _btnHeight + 1)];
             [subBtn setTitle:subTitle forState:UIControlStateNormal];
             subBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
             subBtn.contentEdgeInsets = UIEdgeInsetsMake(0, _subBtnTitleLeftPadding, 0, 0);
-            [subBtn.titleLabel setFont:[UIFont fontWithName:@"Futura-Medium" size:15]];
+            [subBtn.titleLabel setFont:_subBtnFont];
             [subBtn setTitleColor:_btnTitleColor forState:UIControlStateNormal];
             [subBtn setTitleColor:_btnSelectColor forState:UIControlStateSelected];
             [subBtn setTintColor:[UIColor clearColor]];
@@ -215,28 +227,15 @@
         }
     }
     
-    _menuIndicator = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"icon_select"]];
-    CGFloat indicatorSize = 30;
-    [_menuIndicator setFrame:CGRectMake(showMenuWidth*0.9 - indicatorSize/2, _btnHeight/2 - indicatorSize/2, indicatorSize, indicatorSize)];
-    [_menuIndicator setContentMode:UIViewContentModeScaleAspectFit];
-    [self.menu addSubview:_menuIndicator];
 }
 
 - (instancetype)initWithTargetView:(UIView*)targetView
 {
     self = [super init];
     
+    _btnHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     _targetView = targetView;
     
-    return self;
-}
-
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        
-    }
     return self;
 }
 
@@ -358,7 +357,6 @@
         [self.delegate pyDropMenuButtonClick:self WithIndex:btn.tag andSubIndex:-1];
     }
     
-    [_menuIndicator setFrame:CGRectMake(_targetView.frame.size.width*0.9 - 30, btn.center.y - 15, 45, 25)];
     [self toggleMenu];
 }
 

@@ -52,11 +52,13 @@
 - (void)dropDownMenuSetup
 {    
     _dropMenu = [[PYDropMenu alloc] initWithTargetView:self.view];
+    _dropMenu.btnFont = [UIFont fontWithName:@"Futura-Medium" size:15.0];
+    _dropMenu.subBtnFont = [UIFont fontWithName:@"Futura-Medium" size:15.0];
     _dropMenu.delegate = self;
     _dropMenu.dataSource = self;
     
-    
     _subMenu = [[PYDropMenu alloc] initWithTargetView:_tableView];
+    _subMenu.btnHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     _subMenu.delegate = self;
     _subMenu.dataSource = self;
 }

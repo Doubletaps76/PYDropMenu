@@ -50,18 +50,23 @@
 @interface PYDropMenu : UIViewController <UIGestureRecognizerDelegate>
 
 @property (nonatomic) UIScrollView *menu;
-@property (nonatomic) UIImageView *menuIndicator;
 @property (nonatomic) UIView *containerView;
 @property (nonatomic) NSMutableArray *buttoms;
 
+
+@property (nonatomic,strong) UIColor *menuBackgroundColor;
+@property (nonatomic,assign) CGFloat btnHeight; //including btns and subBtns
+
 //Buttons UI
+@property (nonatomic,strong) UIFont *btnFont;
 @property (nonatomic,strong) UIColor *btnBackgroundColor;
 @property (nonatomic,strong) UIColor *btnSelectColor;
 @property (nonatomic,strong) UIColor *btnTitleColor;
-@property (nonatomic,assign) CGFloat btnHeight;
 @property (nonatomic,assign) CGFloat btnTitleLeftPadding;
+@property (nonatomic,assign) UIControlContentHorizontalAlignment btnHorizontalAlignment;
 
 //SubButtons UI
+@property (nonatomic,strong) UIFont *subBtnFont;
 @property (nonatomic,strong) UIColor *subBtnBackgroundColor;
 @property (nonatomic,strong) UIColor *subBtnSelectColor;
 @property (nonatomic,strong) UIColor *subBtnTitleColor;

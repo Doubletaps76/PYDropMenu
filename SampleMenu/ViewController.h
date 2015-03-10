@@ -10,8 +10,8 @@
 #import "PYDropMenu.h"
 
 @interface ViewController : UIViewController<PYDropMenuDelegate,PYDropMenuDataSource>
-@property (weak, nonatomic) IBOutlet UIButton *subButton;
 
+@property (weak, nonatomic) IBOutlet UIButton *subButton;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

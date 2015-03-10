@@ -14,7 +14,7 @@
 		040F722A1AA939F300F77DB8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 040F72291AA939F300F77DB8 /* Images.xcassets */; };
 		040F722D1AA939F300F77DB8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 040F722B1AA939F300F77DB8 /* LaunchScreen.xib */; };
 		040F72391AA939F300F77DB8 /* SampleMenuTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 040F72381AA939F300F77DB8 /* SampleMenuTests.m */; };
-		040F72441AA93A1A00F77DB8 /* PYDropMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 040F72431AA93A1A00F77DB8 /* PYDropMenu.m */; };
+		040F724F1AAE7E0800F77DB8 /* PYDropMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 040F724E1AAE7E0800F77DB8 /* PYDropMenu.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,8 +41,8 @@
 		040F72321AA939F300F77DB8 /* SampleMenuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SampleMenuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		040F72371AA939F300F77DB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		040F72381AA939F300F77DB8 /* SampleMenuTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleMenuTests.m; sourceTree = "<group>"; };
-		040F72421AA93A1A00F77DB8 /* PYDropMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYDropMenu.h; sourceTree = "<group>"; };
-		040F72431AA93A1A00F77DB8 /* PYDropMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYDropMenu.m; sourceTree = "<group>"; };
+		040F724D1AAE7E0800F77DB8 /* PYDropMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PYDropMenu.h; sourceTree = "<group>"; };
+		040F724E1AAE7E0800F77DB8 /* PYDropMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PYDropMenu.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,10 +86,9 @@
 			children = (
 				040F72201AA939F300F77DB8 /* AppDelegate.h */,
 				040F72211AA939F300F77DB8 /* AppDelegate.m */,
+				040F724C1AAE7E0800F77DB8 /* PYDropMenu */,
 				040F72231AA939F300F77DB8 /* ViewController.h */,
 				040F72241AA939F300F77DB8 /* ViewController.m */,
-				040F72421AA93A1A00F77DB8 /* PYDropMenu.h */,
-				040F72431AA93A1A00F77DB8 /* PYDropMenu.m */,
 				040F72261AA939F300F77DB8 /* Main.storyboard */,
 				040F72291AA939F300F77DB8 /* Images.xcassets */,
 				040F722B1AA939F300F77DB8 /* LaunchScreen.xib */,
@@ -123,6 +122,15 @@
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
+		};
+		040F724C1AAE7E0800F77DB8 /* PYDropMenu */ = {
+			isa = PBXGroup;
+			children = (
+				040F724D1AAE7E0800F77DB8 /* PYDropMenu.h */,
+				040F724E1AAE7E0800F77DB8 /* PYDropMenu.m */,
+			);
+			path = PYDropMenu;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -226,8 +234,8 @@
 			files = (
 				040F72251AA939F300F77DB8 /* ViewController.m in Sources */,
 				040F72221AA939F300F77DB8 /* AppDelegate.m in Sources */,
+				040F724F1AAE7E0800F77DB8 /* PYDropMenu.m in Sources */,
 				040F721F1AA939F300F77DB8 /* main.m in Sources */,
-				040F72441AA93A1A00F77DB8 /* PYDropMenu.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,6 +426,7 @@
 				040F723E1AA939F300F77DB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		040F723F1AA939F300F77DB8 /* Build configuration list for PBXNativeTarget "SampleMenuTests" */ = {
 			isa = XCConfigurationList;
@@ -426,6 +435,7 @@
 				040F72411AA939F300F77DB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
