@@ -33,7 +33,7 @@
 @protocol PYDropMenuDelegate <NSObject>
 
 @required
-- (void)pyDropMenuButtonClick:(PYDropMenu*)dropMenu WithIndex:(NSInteger)index andSubIndex:(NSInteger)subIndex;
+- (void)pyDropMenuButtonClick:(PYDropMenu*)dropMenu withIndex:(NSInteger)index andSubIndex:(NSInteger)subIndex;
 
 @optional
 - (void)getPYDropMenuButton:(UIButton*)button withIndex:(NSInteger)index;

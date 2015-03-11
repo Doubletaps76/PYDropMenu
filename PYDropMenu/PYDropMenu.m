@@ -340,12 +340,12 @@
         
         _selectIndex = index;
         _subSelectIndex = btn.tag;
-        [self.delegate pyDropMenuButtonClick:self WithIndex:index andSubIndex:subIndex];
+        [self.delegate pyDropMenuButtonClick:self withIndex:index andSubIndex:subIndex];
     }else{
         
         _selectIndex = btn.tag;
         _subSelectIndex = -1;
-        [self.delegate pyDropMenuButtonClick:self WithIndex:btn.tag andSubIndex:-1];
+        [self.delegate pyDropMenuButtonClick:self withIndex:btn.tag andSubIndex:-1];
     }
     
     [self toggleMenu];
