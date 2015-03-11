@@ -1,3 +1,49 @@
+##PYDropMenu
+
+PYDropMenu is an easy way to add a dropping effect menu to parent view. 
+
+## Usage
+
+```obj-c
+//setup
+_dropMenu = [[PYDropMenu alloc] initWithTargetView:self.view];
+_dropMenu.delegate = self;
+_dropMenu.dataSource = self;
+
+//show/hide the menu
+[_dropMenu toggleMenu];
+```
+
+Then respond to the required methods:
+```obj-c
+//delegate
+@required
+- (void)pyDropMenuButtonClick:(PYDropMenu*)dropMenu withIndex:(NSInteger)index andSubIndex:(NSInteger)subIndex;
+
+@optional
+- (void)getPYDropMenuButton:(UIButton*)button withIndex:(NSInteger)index;
+
+- (void)getPYDropMenuSubButton:(UIButton*)subbutton withIndex:(NSInteger)index andSubIndex:(NSInteger)subIndex;
+
+//datasource
+@required
+- (NSInteger)numberOfButtonsInPYDropMenu:(PYDropMenu*)dropMenu;
+
+- (NSString*)titleForButtonAtIndex:(NSInteger)buttonIndex withPYDropMenu:(PYDropMenu*)dropMenu;
+
+@optional
+- (NSInteger)numberOfSubBtnsInButton:(NSInteger)buttonIndex withPYDropMenu:(PYDropMenu*)dropMenu;
+
+- (NSString*)titleForSubBtnsAtSubIndex:(NSInteger)subbuttonIndex andIndex:(NSInteger)buttonIndex withPYDropMenu:(PYDropMenu*)dropMenu;
+
+```
+
+##Adding to your project
+```
+platform :ios, '7'
+    pod 'PYDropMenu'
+```
+
 ##MIT License
 -----------
 
