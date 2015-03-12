@@ -142,8 +142,8 @@
         [btn setTintColor:[UIColor clearColor]];
         [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
         
-        if ([self.delegate respondsToSelector:@selector(getPYDropMenuButton:withIndex:)]) {
-            [self.delegate getPYDropMenuButton:btn withIndex:btnIndex];
+        if ([self.delegate respondsToSelector:@selector(pyDropMenu:getPYDropMenuButton:withIndex:)]) {
+            [self.delegate pyDropMenu:self getPYDropMenuButton:btn withIndex:btnIndex];
         }
         
         [self.menu addSubview:btn];
@@ -185,8 +185,8 @@
                 [subBtn setTitleColor:_btnSelectColor forState:UIControlStateSelected];
                 [subBtn setTintColor:[UIColor clearColor]];
                 [subBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-                if ([self.delegate respondsToSelector:@selector(getPYDropMenuSubButton:withIndex:andSubIndex:)]) {
-                    [self.delegate getPYDropMenuSubButton:subBtn withIndex:btnIndex andSubIndex:subBtn.tag - 10000];
+                if ([self.delegate respondsToSelector:@selector(pyDropMenu:getPYDropMenuSubButton:withIndex:andSubIndex:)]) {
+                    [self.delegate pyDropMenu:self getPYDropMenuSubButton:subBtn withIndex:btnIndex andSubIndex:subBtn.tag - 10000];
                 }
                 [self.menu addSubview:subBtn];
                 
@@ -340,12 +340,12 @@
         
         _selectIndex = index;
         _subSelectIndex = btn.tag;
-        [self.delegate pyDropMenuButtonClick:self withIndex:index andSubIndex:subIndex];
+        [self.delegate pyDropMenuDidButtonClick:self withIndex:index andSubIndex:subIndex];
     }else{
         
         _selectIndex = btn.tag;
         _subSelectIndex = -1;
-        [self.delegate pyDropMenuButtonClick:self withIndex:btn.tag andSubIndex:-1];
+        [self.delegate pyDropMenuDidButtonClick:self withIndex:btn.tag andSubIndex:-1];
     }
     
     [self toggleMenu];
