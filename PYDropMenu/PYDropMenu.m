@@ -240,6 +240,7 @@
     self = [super init];
     
     _btnHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    _status = PYDropMenuStatusClose;
     _targetView = targetView;
     
     return self;
@@ -281,7 +282,11 @@
     
     [self.view addSubview:self.containerView];
     [self.view addSubview:self.menu];
-
+    
+    _status = PYDropMenuStatusShowing;
+    if ([self.delegate respondsToSelector:@selector(didChangeStatusWithPYDropMenu:)]) {
+        [self.delegate didChangeStatusWithPYDropMenu:self];
+    }
     [UIView animateWithDuration:0.4
                           delay:0.0
          usingSpringWithDamping:1.0
@@ -292,6 +297,10 @@
                          [self.containerView setAlpha:0.7];
                      }
                      completion:^(BOOL finished){
+                         _status = PYDropMenuStatusShow;
+                         if ([self.delegate respondsToSelector:@selector(didChangeStatusWithPYDropMenu:)]) {
+                             [self.delegate didChangeStatusWithPYDropMenu:self];
+                         }
                      }];
     
     [UIView commitAnimations];
@@ -299,6 +308,10 @@
 
 - (void)hidePYDropMenu
 {
+    _status = PYDropMenuStatusClosing;
+    if ([self.delegate respondsToSelector:@selector(didChangeStatusWithPYDropMenu:)]) {
+        [self.delegate didChangeStatusWithPYDropMenu:self];
+    }
     [UIView animateWithDuration:0.3f
                           delay:0.05f
          usingSpringWithDamping:1.0
@@ -309,7 +322,10 @@
                          [self.containerView setAlpha:0];
                      }
                      completion:^(BOOL finished){
-
+                         _status = PYDropMenuStatusClose;
+                         if ([self.delegate respondsToSelector:@selector(didChangeStatusWithPYDropMenu:)]) {
+                             [self.delegate didChangeStatusWithPYDropMenu:self];
+                         }
                          [self.menu removeFromSuperview];
                          [self.containerView removeFromSuperview];
                          self.menu = nil;

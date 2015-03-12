@@ -28,6 +28,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, PYDropMenuStatus) {
+    PYDropMenuStatusClose,
+    PYDropMenuStatusClosing,
+    PYDropMenuStatusShow,
+    PYDropMenuStatusShowing
+};
+
 @class PYDropMenu;
 
 @protocol PYDropMenuDelegate <NSObject>
@@ -40,6 +47,7 @@
 
 - (void)pyDropMenu:(PYDropMenu*)dropMenu getPYDropMenuSubButton:(UIButton*)subbutton withIndex:(NSInteger)index andSubIndex:(NSInteger)subIndex;
 
+- (void)didChangeStatusWithPYDropMenu:(PYDropMenu*)dropMenu;
 @end
 
 @protocol PYDropMenuDataSource <NSObject>
@@ -58,10 +66,10 @@
 
 @interface PYDropMenu : UIViewController <UIGestureRecognizerDelegate>
 
-@property (nonatomic) UIScrollView *menu;
-@property (nonatomic) UIView *containerView;
-@property (nonatomic) NSMutableArray *buttoms;
-
+@property (nonatomic,strong) UIScrollView *menu;
+@property (nonatomic,assign) PYDropMenuStatus status;
+@property (nonatomic,strong) UIView *containerView;
+@property (nonatomic,strong) NSMutableArray *buttoms;
 
 @property (nonatomic,strong) UIColor *menuBackgroundColor;
 @property (nonatomic,assign) CGFloat btnHeight; //including btns and subBtns
