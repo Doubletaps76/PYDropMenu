@@ -12,6 +12,7 @@
 
 @property (nonatomic) PYDropMenu *dropMenu;
 @property (nonatomic) PYDropMenu *subMenu;
+@property (nonatomic) UIView *subMenuBoxView;
 @property (nonatomic) UIButton *navTitleBtn;
 @property (nonatomic) NSMutableArray *options;
 @property (nonatomic) NSMutableArray *subOptions2;
@@ -43,9 +44,7 @@
     [self.navigationItem.titleView setFrame:CGRectMake(0, 0, screenRect.width, 44)];
     self.navigationItem.titleView = _navTitleBtn;
     [_navTitleBtn setTitle:@"1" forState:UIControlStateNormal];
-    
-    _options = [NSMutableArray arrayWithArray:@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11"]];
-    _secondOptions = [NSMutableArray arrayWithArray:@[@"A",@"B",@"C",@"D"]];
+
     
     _subOptions2 = [NSMutableArray array];
     [_subOptions2 addObjectsFromArray:@[@"2-1",@"2-2",@"2-3",@"2-4"]];
@@ -55,6 +54,13 @@
     [_subOptions9 addObjectsFromArray:@[@"9-1",@"9-2",@"9-3"]];
     _subOptions10 = [NSMutableArray array];
     [_subOptions10 addObjectsFromArray:@[@"10-1",@"10-2",@"10-3",@"10-4",@"10-5",@"10-6"]];
+    NSDictionary *option2 = @{@"optionTitle":@"2",@"subcat":_subOptions2};
+    NSDictionary *option4 = @{@"optionTitle":@"4",@"subcat":_subOptions4};
+    NSDictionary *option9 = @{@"optionTitle":@"9",@"subcat":_subOptions9};
+    NSDictionary *option10 = @{@"optionTitle":@"10",@"subcat":_subOptions10};
+    
+    _options = [NSMutableArray arrayWithArray:@[@"1",option2,@"3",option4,@"5",@"6",@"7",@"8",option9,option10,@"11"]];
+    _secondOptions = [NSMutableArray arrayWithArray:@[@"A",@"B",@"C",@"D"]];
     
     [self pyDropMenuSetup];
     
@@ -71,7 +77,12 @@
     _dropMenu.delegate = self;
     _dropMenu.dataSource = self;
     
-    _subMenu = [[PYDropMenu alloc] initWithTargetView:_tableView];
+    _subMenuBoxView = [[UIView alloc] initWithFrame:CGRectMake(0, _subButton.frame.size.height, [UIScreen mainScreen].bounds.size.width, self.view.frame.size.height - _subButton.frame.size.height)];
+    _subMenuBoxView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:_subMenuBoxView];
+    _subMenuBoxView.hidden = YES;
+    
+    _subMenu = [[PYDropMenu alloc] initWithTargetView:_subMenuBoxView];
     _subMenu.btnHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     _subMenu.delegate = self;
     _subMenu.dataSource = self;
@@ -88,22 +99,41 @@
 
 #pragma mark pyDropMenu Delegate
 
-- (void)pyDropMenuButtonClick:(PYDropMenu*)dropMenu WithIndex:(NSInteger)index andSubIndex:(NSInteger)subIndex
+- (void)pyDropMenuDidButtonClick:(PYDropMenu *)dropMenu withIndex:(NSInteger)index andSubIndex:(NSInteger)subIndex
 {
     NSLog(@"%li",(long)index);
     NSLog(@"%li",(long)subIndex);
     
     if (dropMenu == _dropMenu) {
-        _nowSelect = _options[index];
-        [_navTitleBtn setTitle:_nowSelect forState:UIControlStateNormal];
         
-        //if subIndex >= 0, then do what u want
-        
+        if (subIndex >= 0) {
+            _nowSelect = _options[index][@"subcat"][subIndex];
+            [_navTitleBtn setTitle:_nowSelect forState:UIControlStateNormal];
+        }else{
+            if ([_options[index] isKindOfClass:[NSDictionary class]]) {
+                _nowSelect = _options[index][@"optionTitle"];
+            }else{
+                _nowSelect = _options[index];
+            }
+            [_navTitleBtn setTitle:_nowSelect forState:UIControlStateNormal];
+        }
         
     }else if (dropMenu == _subMenu){
         [_subButton setTitle:_secondOptions[index] forState:UIControlStateNormal];
     }
 }
+
+- (void)didChangeStatusWithPYDropMenu:(PYDropMenu *)dropMenu
+{
+    if (dropMenu == _subMenu) {
+        if (dropMenu.status == PYDropMenuStatusShowing) {
+            _subMenuBoxView.hidden = NO;
+        }else if (dropMenu.status == PYDropMenuStatusClose){
+            _subMenuBoxView.hidden = YES;
+        }
+    }
+}
+
 
 #pragma mark pyDropMenu DataSource
 - (NSInteger)numberOfButtonsInPYDropMenu:(PYDropMenu *)dropMenu
@@ -119,14 +149,9 @@
 - (NSInteger)numberOfSubBtnsInButton:(NSInteger)buttonIndex withPYDropMenu:(PYDropMenu *)dropMenu
 {
     if (dropMenu == _dropMenu) {
-        if (buttonIndex == 1) {
-            return _subOptions2.count;
-        }else if (buttonIndex == 3){
-            return _subOptions4.count;
-        }else if (buttonIndex == 8){
-            return _subOptions9.count;
-        }else if (buttonIndex == 9){
-            return _subOptions10.count;
+        if ([_options[buttonIndex] isKindOfClass:[NSDictionary class]]) {
+            NSArray *subCat = _options[buttonIndex][@"subcat"];
+            return subCat.count;
         }
     }
     return 0;
@@ -135,7 +160,11 @@
 - (NSString*)titleForButtonAtIndex:(NSInteger)buttonIndex withPYDropMenu:(PYDropMenu *)dropMenu
 {
     if (dropMenu == _dropMenu) {
-        return _options[buttonIndex];
+        if ([_options[buttonIndex] isKindOfClass:[NSDictionary class]]) {
+            return _options[buttonIndex][@"optionTitle"];
+        }else{
+            return _options[buttonIndex];
+        }
     }else if(dropMenu == _subMenu){
         return _secondOptions[buttonIndex];
     }else{
@@ -146,15 +175,7 @@
 - (NSString*)titleForSubBtnsAtSubIndex:(NSInteger)subbuttonIndex andIndex:(NSInteger)buttonIndex withPYDropMenu:(PYDropMenu *)dropMenu
 {
     if (dropMenu == _dropMenu) {
-        if (buttonIndex == 1) {
-            return _subOptions2[subbuttonIndex];
-        }else if (buttonIndex == 3){
-            return _subOptions4[subbuttonIndex];
-        }else if (buttonIndex == 8){
-            return _subOptions9[subbuttonIndex];
-        }else if (buttonIndex == 9){
-            return _subOptions10[subbuttonIndex];
-        }
+        return _options[buttonIndex][@"subcat"][subbuttonIndex];
     }
     
     return @"";

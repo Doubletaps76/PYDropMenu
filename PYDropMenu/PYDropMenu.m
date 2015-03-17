@@ -102,6 +102,7 @@
     
     //setup dropMenu
     self.menu = [[UIScrollView alloc] initWithFrame:CGRectMake(0, -showMenuHeight, showMenuWidth, showMenuHeight)];
+    self.menu.scrollsToTop = NO;
     [self.menu setBackgroundColor:_menuBackgroundColor];
     [self.menu setHidden:YES];
     
@@ -194,7 +195,7 @@
                 if (i % 3 == 0 && i != 0) _scrollContentHeight += _btnHeight;
                 
                 //if subbuttons row contain full buttons ,then add separate line
-                if (i%3 == 2) {
+                if (i % 3 == 2) {
                     UIView *separateLine = [[UIView alloc] initWithFrame:CGRectMake(btnWidth, _scrollContentHeight, showMenuWidth-btnWidth, 1)];
                     separateLine.backgroundColor = _separateColor;
                     [self.menu addSubview:separateLine];
@@ -301,6 +302,7 @@
                          if ([self.delegate respondsToSelector:@selector(didChangeStatusWithPYDropMenu:)]) {
                              [self.delegate didChangeStatusWithPYDropMenu:self];
                          }
+                         self.menu.scrollsToTop = YES;
                      }];
     
     [UIView commitAnimations];
@@ -326,6 +328,8 @@
                          if ([self.delegate respondsToSelector:@selector(didChangeStatusWithPYDropMenu:)]) {
                              [self.delegate didChangeStatusWithPYDropMenu:self];
                          }
+                         
+                         self.menu.scrollsToTop = NO;
                          [self.menu removeFromSuperview];
                          [self.containerView removeFromSuperview];
                          self.menu = nil;
