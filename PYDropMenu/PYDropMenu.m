@@ -47,8 +47,6 @@
 
 @property (nonatomic) UIView *targetView;
 
-@property (nonatomic,assign) NSInteger selectIndex;
-@property (nonatomic,assign) NSInteger subSelectIndex;
 @property (nonatomic,assign) CGFloat scrollContentHeight;
 
 @property (nonatomic,strong) NSMutableArray* btnTitles;
@@ -226,8 +224,8 @@
         if ([subView isKindOfClass:[UIButton class]]) {
             UIButton *btn = (UIButton*)subView;
             btn.selected = NO;
-            if (_subSelectIndex >= 0) {
-                btn.selected = (btn.tag == _subSelectIndex);
+            if (_selectSubIndex >= 0) {
+                btn.selected = (btn.tag == _selectSubIndex);
             }else{
                 btn.selected = (btn.tag == _selectIndex);
             }
@@ -359,12 +357,12 @@
         NSInteger subIndex = btn.tag - 10000*index;
         
         _selectIndex = index;
-        _subSelectIndex = btn.tag;
+        _selectSubIndex = btn.tag;
         [self.delegate pyDropMenuDidButtonClick:self withIndex:index andSubIndex:subIndex];
     }else{
         
         _selectIndex = btn.tag;
-        _subSelectIndex = -1;
+        _selectSubIndex = -1;
         [self.delegate pyDropMenuDidButtonClick:self withIndex:btn.tag andSubIndex:-1];
     }
     

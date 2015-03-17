@@ -93,6 +93,10 @@ typedef NS_ENUM(NSUInteger, PYDropMenuStatus) {
 @property (nonatomic,assign) CGFloat separateHeight;
 @property (nonatomic,strong) UIColor *separateColor;
 
+//
+@property (nonatomic,assign) NSInteger selectIndex;
+@property (nonatomic,assign) NSInteger selectSubIndex;
+
 @property (nonatomic,assign) id <PYDropMenuDelegate> delegate;
 @property (nonatomic,assign) id <PYDropMenuDataSource> dataSource;
 
