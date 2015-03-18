@@ -15,6 +15,7 @@
 @property (nonatomic) UIView *subMenuBoxView;
 @property (nonatomic) UIButton *navTitleBtn;
 @property (nonatomic) NSMutableArray *options;
+@property (nonatomic) NSMutableArray *subOptions;
 @property (nonatomic) NSMutableArray *subOptions2;
 @property (nonatomic) NSMutableArray *subOptions4;
 @property (nonatomic) NSMutableArray *subOptions9;
@@ -45,7 +46,8 @@
     self.navigationItem.titleView = _navTitleBtn;
     [_navTitleBtn setTitle:@"1" forState:UIControlStateNormal];
 
-    
+    _subOptions = [NSMutableArray array];
+    [_subOptions addObjectsFromArray:@[@"1-1",@"1-2"]];
     _subOptions2 = [NSMutableArray array];
     [_subOptions2 addObjectsFromArray:@[@"2-1",@"2-2",@"2-3",@"2-4"]];
     _subOptions4 = [NSMutableArray array];
@@ -54,12 +56,13 @@
     [_subOptions9 addObjectsFromArray:@[@"9-1",@"9-2",@"9-3"]];
     _subOptions10 = [NSMutableArray array];
     [_subOptions10 addObjectsFromArray:@[@"10-1",@"10-2",@"10-3",@"10-4",@"10-5",@"10-6"]];
+    NSDictionary *option = @{@"optionTitle":@"1",@"subcat":_subOptions};
     NSDictionary *option2 = @{@"optionTitle":@"2",@"subcat":_subOptions2};
     NSDictionary *option4 = @{@"optionTitle":@"4",@"subcat":_subOptions4};
     NSDictionary *option9 = @{@"optionTitle":@"9",@"subcat":_subOptions9};
     NSDictionary *option10 = @{@"optionTitle":@"10",@"subcat":_subOptions10};
     
-    _options = [NSMutableArray arrayWithArray:@[@"1",option2,@"3",option4,@"5",@"6",@"7",@"8",option9,option10,@"11"]];
+    _options = [NSMutableArray arrayWithArray:@[option,option2,@"3",option4,@"5",@"6",@"7",@"8",option9,option10,@"11"]];
     _secondOptions = [NSMutableArray arrayWithArray:@[@"A",@"B",@"C",@"D"]];
     
     [self pyDropMenuSetup];

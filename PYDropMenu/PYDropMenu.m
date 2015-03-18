@@ -173,7 +173,7 @@
                 CGFloat subBtnYoffSet = (_btnHeight+1) * (i/3);
                 
                 UIButton *subBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-                subBtn.tag = i + 10000 * btnIndex;
+                subBtn.tag = i + 10000 * (btnIndex+1);
                 [subBtn setBackgroundColor:_subBtnBackgroundColor];
                 [subBtn setFrame:CGRectMake(btnWidth + (subBtnWidth*(i%3)), btn.frame.origin.y + subBtnYoffSet, subBtnWidth, _btnHeight + 1)];
                 [subBtn setTitle:subTitle forState:UIControlStateNormal];
@@ -353,8 +353,8 @@
     [btn setSelected:YES];
     
     if (btn.tag >= 10000) {
-        NSInteger index = btn.tag/10000;
-        NSInteger subIndex = btn.tag - 10000*index;
+        NSInteger index = btn.tag/10000-1;
+        NSInteger subIndex = btn.tag - 10000*(btn.tag/10000);
         
         _selectIndex = index;
         _selectSubIndex = btn.tag;
