@@ -2,6 +2,8 @@
 
 PYDropMenu is an easy way to add a dropping effect menu to parent view. 
 
+<img src="https://github.com/Doubletaps76/PYDropMenu/blob/master/demo.gif" alt="PYDropMenu Screenshot" width="320" height="568">
+
 ## Usage
 
 ```obj-c
