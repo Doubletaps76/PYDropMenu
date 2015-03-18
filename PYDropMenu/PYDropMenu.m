@@ -185,7 +185,7 @@
                 [subBtn setTintColor:[UIColor clearColor]];
                 [subBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
                 if ([self.delegate respondsToSelector:@selector(pyDropMenu:getPYDropMenuSubButton:withIndex:andSubIndex:)]) {
-                    [self.delegate pyDropMenu:self getPYDropMenuSubButton:subBtn withIndex:btnIndex andSubIndex:subBtn.tag - 10000];
+                    [self.delegate pyDropMenu:self getPYDropMenuSubButton:subBtn withIndex:btnIndex andSubIndex:subBtn.tag - 10000 * (btnIndex+1)];
                 }
                 [self.menu addSubview:subBtn];
                 
