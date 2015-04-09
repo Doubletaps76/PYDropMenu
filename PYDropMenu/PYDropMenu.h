@@ -97,8 +97,8 @@ typedef NS_ENUM(NSUInteger, PYDropMenuStatus) {
 @property (nonatomic,assign) NSInteger selectIndex;
 @property (nonatomic,assign) NSInteger selectSubIndex;
 
-@property (nonatomic,assign) id <PYDropMenuDelegate> delegate;
-@property (nonatomic,assign) id <PYDropMenuDataSource> dataSource;
+@property (nonatomic,weak) id <PYDropMenuDelegate> delegate;
+@property (nonatomic,weak) id <PYDropMenuDataSource> dataSource;
 
 - (id)initWithTargetView:(UIView*)targetView;
 - (void)toggleMenu;
