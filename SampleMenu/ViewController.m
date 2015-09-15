@@ -51,11 +51,11 @@
     _subOptions2 = [NSMutableArray array];
     [_subOptions2 addObjectsFromArray:@[@"2-1",@"2-2",@"2-3",@"2-4"]];
     _subOptions4 = [NSMutableArray array];
-    [_subOptions4 addObjectsFromArray:@[@"4-1",@"4-2"]];
+    [_subOptions4 addObjectsFromArray:@[@"4-1"]];
     _subOptions9 = [NSMutableArray array];
     [_subOptions9 addObjectsFromArray:@[@"9-1",@"9-2",@"9-3"]];
     _subOptions10 = [NSMutableArray array];
-    [_subOptions10 addObjectsFromArray:@[@"10-1",@"10-2",@"10-3",@"10-4",@"10-5",@"10-6"]];
+    [_subOptions10 addObjectsFromArray:@[@"10-1",@"10-2",@"10-3",@"10-4",@"10-5",@"10-6",@"10-7"]];
     NSDictionary *option = @{@"optionTitle":@"1",@"subcat":_subOptions};
     NSDictionary *option2 = @{@"optionTitle":@"2",@"subcat":_subOptions2};
     NSDictionary *option4 = @{@"optionTitle":@"4",@"subcat":_subOptions4};

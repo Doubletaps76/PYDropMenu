@@ -117,7 +117,7 @@
         }
         CGFloat btnWidth;
         if (subButtonsCount > 0) {
-            btnWidth = (subButtonsCount >= 3 )?showMenuWidth/4:showMenuWidth/2;
+            btnWidth = showMenuWidth/4;
         }else{
             btnWidth = showMenuWidth;
         }
@@ -163,13 +163,8 @@
                 
                 NSString *subTitle = [self.dataSource titleForSubBtnsAtSubIndex:i andIndex:btnIndex withPYDropMenu:self];
 
-                CGFloat subBtnWidth = 0 ;
-                if (subButtonsCount <= 3) {
-                    subBtnWidth = (showMenuWidth - btnWidth)/subButtonsCount;
-                }else{
-                    subBtnWidth = (showMenuWidth - btnWidth)/3;
-                }
-                
+                CGFloat subBtnWidth = (showMenuWidth - btnWidth)/3;
+
                 CGFloat subBtnYoffSet = (_btnHeight+1) * (i/3);
                 
                 UIButton *subBtn = [UIButton buttonWithType:UIButtonTypeSystem];
